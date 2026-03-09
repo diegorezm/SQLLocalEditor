@@ -4,8 +4,9 @@ project(SQLLocalEditor VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(QT_QML_GENERATE_QMLLS_INI ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick Qml Sql)
+find_package(Qt6 REQUIRED COMPONENTS Core Quick Qml Sql)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
@@ -21,6 +22,7 @@ qt_add_qml_module(appSQLLocalEditor
     URI SQLLocalEditor
     VERSION 1.0
     QML_FILES ${QML_FILES}
+    RESOURCES qml/qmldir
 )
 
 set_target_properties(appSQLLocalEditor PROPERTIES
@@ -31,7 +33,7 @@ set_target_properties(appSQLLocalEditor PROPERTIES
 )
 
 target_link_libraries(appSQLLocalEditor
-    PRIVATE Qt6::Quick Qt6::Qml Qt6::Sql
+    PRIVATE Qt6::Core Qt6::Quick Qt6::Qml Qt6::Sql
 )
 
 include(GNUInstallDirs)
