@@ -1,53 +1,63 @@
 import QtQuick
+import QtQuick.Effects
 import SQLLocalEditor
 
-Rectangle {
+Item {
     id: root
-
-    property string tableName: "users"
-
-    width: 220
-    height: 160
-    radius: Theme.radiusMd
-    color: Theme.nodeBg
-    border.color: Theme.nodeBorder
-    border.width: 1
-
-    // bring to front when clicked
+    property string tableName: "DefaultTable"
+    implicitWidth: 220
+    implicitHeight: 160
 
     DragHandler {
         id: dragHandler
+        target: root
     }
 
-    MouseArea {
-        anchors.fill: parent
-        onClicked: root.z = 1
-        cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
+    MultiEffect {
+        source: nodeRect
+        anchors.fill: nodeRect
+        shadowEnabled: true
+        shadowBlur: 1.0
+        shadowVerticalOffset: 4
+        shadowColor: "black"
+        opacity: 0.6
     }
 
-    // header
     Rectangle {
-        id: header
-        width: parent.width
-        height: 38
+        id: nodeRect
+        anchors.fill: parent
         radius: Theme.radiusMd
-        color: Theme.nodeHeader
+        color: Theme.nodeBg
 
-        // square off bottom corners
-        Rectangle {
-            anchors.bottom: parent.bottom
-            width: parent.width
-            height: Theme.radiusMd
-            color: Theme.nodeHeader
+        MouseArea {
+            anchors.fill: parent
+            cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
+            onPressed: root.z = 100
+            onReleased: root.z = 1
         }
 
-        Text {
-            anchors.centerIn: parent
-            text: root.tableName
-            color: Theme.accent
-            font.family: Theme.fontMono
-            font.pixelSize: 13
-            font.bold: true
+        Rectangle {
+            id: header
+            width: parent.width
+            height: 38
+            radius: Theme.radiusMd
+            color: Theme.nodeHeader
+
+            Rectangle {
+                anchors.bottom: parent.bottom
+                width: parent.width
+                height: Theme.radiusMd
+                color: Theme.nodeHeader
+            }
+
+            Text {
+                anchors.centerIn: parent
+                text: root.tableName
+                color: Theme.accent
+                font.family: Theme.fontMono
+                font.pixelSize: 13
+                font.bold: true
+            }
         }
     }
 }
