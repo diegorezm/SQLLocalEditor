@@ -30,6 +30,9 @@ public:
   Q_INVOKABLE void removeTable(int index);
   Q_INVOKABLE void renameTable(int index, const QString &name);
   Q_INVOKABLE void moveTable(int index, float x, float y);
+  Q_INVOKABLE void renameColumn(int tableIndex, int columnIndex,
+                                const QString &name);
+  Q_INVOKABLE void setColumnType(int tableIndex, int columnIndex, int type);
 
   // column operations
   Q_INVOKABLE void addColumn(int tableIndex, const QString &name, int type);

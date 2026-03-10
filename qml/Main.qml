@@ -1,4 +1,5 @@
 import QtQuick
+import SQLLocalEditor
 import "components"
 
 Window {
@@ -7,9 +8,11 @@ Window {
     visible: true
     title: qsTr("SQLLocalEditor")
     color: Theme.base
+    property int tableCount: 0
 
     Column {
         anchors.fill: parent
+
         Navbar {
             id: navbar
         }
@@ -17,18 +20,29 @@ Window {
         Item {
             width: parent.width
             height: parent.height - navbar.height
+
             CanvasGrid {}
 
-            TableNode {
-                x: 100
-                y: 100
-                tableName: "users"
+            Repeater {
+                model: schemaModel
+                delegate: TableNode {
+                    tableIndex: index
+                    x: model.tableX
+                    y: model.tableY
+                    tableName: model.name
+                    columns: model.columns
+                }
             }
 
-            TableNode {
-                x: 400
-                y: 200
-                tableName: "orders"
+            CreateTableButton {}
+
+            Component.onCompleted: {
+                schemaModel.addTable("users", 100, 100);
+                schemaModel.addTable("orders", 400, 200);
+                schemaModel.addColumn(0, "id", 0);
+                schemaModel.addColumn(0, "username", 2);
+                schemaModel.addColumn(1, "id", 0);
+                schemaModel.addColumn(1, "user_id", 0);
             }
         }
     }

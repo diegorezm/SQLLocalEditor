@@ -83,6 +83,29 @@ void SchemaModel::addColumn(int tableIndex, const QString &name, int type) {
                    {ColumnsRole});
 }
 
+void SchemaModel::renameColumn(int tableIndex, int columnIndex,
+                               const QString &name) {
+  if (tableIndex < 0 || tableIndex >= m_tables.size())
+    return;
+  auto &cols = m_tables[tableIndex].columns;
+  if (columnIndex < 0 || columnIndex >= cols.size())
+    return;
+  cols[columnIndex].name = name;
+  emit dataChanged(this->index(tableIndex), this->index(tableIndex),
+                   {ColumnsRole});
+}
+
+void SchemaModel::setColumnType(int tableIndex, int columnIndex, int type) {
+  if (tableIndex < 0 || tableIndex >= m_tables.size())
+    return;
+  auto &cols = m_tables[tableIndex].columns;
+  if (columnIndex < 0 || columnIndex >= cols.size())
+    return;
+  cols[columnIndex].type = static_cast<ColumnType>(type);
+  emit dataChanged(this->index(tableIndex), this->index(tableIndex),
+                   {ColumnsRole});
+}
+
 void SchemaModel::removeColumn(int tableIndex, int columnIndex) {
   if (tableIndex < 0 || tableIndex >= m_tables.size())
     return;
